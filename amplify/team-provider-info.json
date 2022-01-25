@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifyf491f4d4e52c4-staging-42217-authRole",
+      "UnauthRoleArn": "arn:aws:iam::749914580613:role/amplify-amplifyf491f4d4e52c4-staging-42217-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::749914580613:role/amplify-amplifyf491f4d4e52c4-staging-42217-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-amplifyf491f4d4e52c4-staging-42217-deployment",
+      "UnauthRoleName": "amplify-amplifyf491f4d4e52c4-staging-42217-unauthRole",
+      "StackName": "amplify-amplifyf491f4d4e52c4-staging-42217",
+      "StackId": "arn:aws:cloudformation:us-east-2:749914580613:stack/amplify-amplifyf491f4d4e52c4-staging-42217/6194f080-7d96-11ec-98ea-02a08ac43f20",
+      "AmplifyAppId": "dyin54inowlex"
+    },
+    "categories": {
+      "auth": {
+        "awsreactapp7fb1fbdd": {}
+      }
+    }
+  }
+}
