@@ -41,5 +41,12 @@
         }
       }
     }
+  },
+  "storage": {
+    "s3awsreactappimgstorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
