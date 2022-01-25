@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Amplify, API } from "aws-amplify";
+import { Amplify, API, Storage } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { listNotes } from "./graphql/queries";
@@ -24,7 +24,25 @@ export default function App() {
 
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
+    const notesFromAPI = apiData.data.listNotes.items;
+    await Promise.all(
+      notesFromAPI.map(async (note) => {
+        if (note.image) {
+          const image = await Storage.get(note.image);
+          note.image = image;
+        }
+        return note;
+      })
+    );
     setNotes(apiData.data.listNotes.items);
+  }
+
+  async function onChange(e) {
+    if (!e.target.files[0]) return;
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file.name });
+    await Storage.put(file.name, file);
+    fetchNotes();
   }
 
   async function createNote() {
@@ -33,6 +51,10 @@ export default function App() {
       query: createNoteMutation,
       variables: { input: formData },
     });
+    if (formData.image) {
+      const image = await Storage.get(formData.image);
+      formData.image = image;
+    }
     setNotes([...notes, formData]);
     setFormData(initialFormState);
   }
@@ -69,12 +91,16 @@ export default function App() {
               placeholder="Note description"
               value={formData.description}
             />
+            <input type="file" onChange={onChange} />
             <button onClick={createNote}>Create Note</button>
             <div style={{ marginBottom: 30 }}>
               {notes.map((note) => (
                 <div key={note.id || note.name}>
                   <h2>{note.name}</h2>
                   <p>{note.description}</p>
+                  {note.image && (
+                    <img src={note.image} style={{ width: 400 }} />
+                  )}
                   <button onClick={() => deleteNote(note)}>Delete note</button>
                 </div>
               ))}
